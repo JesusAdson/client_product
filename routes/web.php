@@ -1,18 +1,15 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Route::get('/', function () {
-    return view('welcome');
+Route::controller(ClientController::class)->prefix('client')->group(function () {
+    Route::get('/', 'index')->name('client.index');
+    Route::get('/create', 'create')->name('client.create');
+    Route::post('/', 'store')->name('client.store');
+    Route::get('/edit/{id}', 'edit')->name('client.edit');
+    Route::put('/update/{id}', 'update')->name('client.update');
+    Route::delete('/delete/{id}', 'destroy')->name('client.delete');
+    Route::get('/search', 'search')->name('client.search');
+    Route::get('/show/{id}', 'show')->name('client.show');
 });
