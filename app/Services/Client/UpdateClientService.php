@@ -5,6 +5,7 @@ namespace App\Services\Client;
 use App\Repositories\Client\ClientRepository;
 use App\Services\ClientProduct\CreateClientProductService;
 use App\Repositories\ClientProduct\ClientProductRepository;
+use App\Services\Invoice\CreateInvoiceService;
 
 class UpdateClientService
 {
@@ -24,18 +25,27 @@ class UpdateClientService
     private ClientProductRepository $client_product_repository;
 
     /**
+     * @var CreateInvoiceService
+     */
+    private CreateInvoiceService $create_invoice_service;
+
+    /**
      * @param ClientRepository $client_repository
      * @param CreateClientProductService $create_client_product_service
+     * @param ClientProductRepository $client_product_repository
+     * @param CreateInvoiceService $create_invoice_service
      */
     public function __construct(
         ClientRepository $client_repository, 
         CreateClientProductService $create_client_product_service,
         ClientProductRepository $client_product_repository,
+        CreateInvoiceService $create_invoice_service
     )
     {
         $this->client_repository = $client_repository;
         $this->create_client_product_service = $create_client_product_service;
         $this->client_product_repository = $client_product_repository;
+        $this->create_invoice_service = $create_invoice_service;
     }
 
     /**
@@ -58,8 +68,10 @@ class UpdateClientService
             foreach ($data['products'] as $product) {
                 $this->create_client_product_service->execute($product, $id);
             }
-        } else if (isset($data['invoice_total'])) {
-            // invoice logic
+        }
+        
+        if (isset($data['invoice_total'])) {
+            $this->create_invoice_service->execute($id, $data['invoice_total']);
         }
 
         return $this->client_repository->update($id, [

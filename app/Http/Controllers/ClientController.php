@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUpdateClientRequest;
 use App\Http\Resources\Client\ClientResource;
+use App\Repositories\Invoice\InvoiceRepository;
 use App\Repositories\Product\ProductRepository;
 use App\Services\Client\CreateClientService;
 use App\Services\Client\DeleteClientService;
@@ -45,7 +46,15 @@ class ClientController extends Controller
      */
     protected SearchClientService $search_client_service;
 
+    /**
+     * @var ProductRepository
+     */
     private ProductRepository $product_repository;
+
+    /**
+     * @var InvoiceRepository
+     */
+    private InvoiceRepository $invoice_repository;
 
     /**
      * @param CreateClientService $create_client_service
@@ -55,6 +64,7 @@ class ClientController extends Controller
      * @param DeleteClientService $delete_client_service
      * @param SearchClientService $search_client_service
      * @param ProductRepository $product_repository
+     * @param InvoiceRepository $invoice_repository
      */
     public function __construct(
         CreateClientService $create_client_service,
@@ -63,7 +73,8 @@ class ClientController extends Controller
         UpdateClientService $update_client_service,
         DeleteClientService $delete_client_service,
         SearchClientService $search_client_service,
-        ProductRepository $product_repository
+        ProductRepository $product_repository,
+        InvoiceRepository $invoice_repository
     )
     {
         $this->create_client_service = $create_client_service;
@@ -73,6 +84,7 @@ class ClientController extends Controller
         $this->delete_client_service = $delete_client_service;
         $this->search_client_service = $search_client_service;
         $this->product_repository = $product_repository;
+        $this->invoice_repository = $invoice_repository;
     }
     /**
      * Display a listing of the resource.
@@ -140,6 +152,7 @@ class ClientController extends Controller
     {
         $client = new ClientResource($this->show_client_service->execute($id));
         $products = $this->product_repository->getAll();
+        $invoices = $this->invoice_repository->getAllByClientId($id);
         $selected_products = $this->product_repository->getByClient($id);
 
         $products->filter(function ($product) use ($selected_products){
@@ -148,7 +161,7 @@ class ClientController extends Controller
             });
         });
         
-        return view('client.edit', compact('client', 'products'));
+        return view('client.edit', compact('client', 'products', 'invoices'));
     }
 
     /**

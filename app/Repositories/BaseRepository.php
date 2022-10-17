@@ -30,6 +30,17 @@ class BaseRepository
             ->orderBy('name', 'asc')
             ->paginate(20);
     }
+
+    /**
+     * @return Collection
+     */
+    public function getAll(): Collection
+    {
+        return $this->model
+            ->query()
+            ->orderBy('name', 'asc')
+            ->get();
+    }
    
     /**
      * It inserts a new register into database

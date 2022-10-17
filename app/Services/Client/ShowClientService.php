@@ -2,7 +2,6 @@
 
 namespace App\Services\Client;
 
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Repositories\Client\ClientRepository;
 
