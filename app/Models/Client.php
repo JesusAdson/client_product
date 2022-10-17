@@ -16,4 +16,14 @@ class Client extends Model
         'email',
         'phone'
     ];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
+
+    public function clientProduct()
+    {
+        return $this->hasMany(ClientProduct::class, 'product_id');
+    }
 }

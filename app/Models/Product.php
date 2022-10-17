@@ -12,4 +12,14 @@ class Product extends Model
     protected $table = 'products';
 
     protected $fillable = ['name', 'value', 'description'];
+
+    public function clients()
+    {
+        return $this->belongsToMany(Client::class);
+    }
+
+    public function clientProduct()
+    {
+        return $this->hasMany(ClientProduct::class);
+    }
 }
