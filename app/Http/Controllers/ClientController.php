@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUpdateClientRequest;
 use App\Http\Resources\Client\ClientResource;
+use App\Repositories\Product\ProductRepository;
 use App\Services\Client\CreateClientService;
 use App\Services\Client\DeleteClientService;
 use App\Services\Client\ListClientService;
@@ -44,6 +45,8 @@ class ClientController extends Controller
      */
     protected SearchClientService $search_client_service;
 
+    private ProductRepository $product_repository;
+
     /**
      * @param CreateClientService $create_client_service
      * @param ListClientService $list_client_service
@@ -51,6 +54,7 @@ class ClientController extends Controller
      * @param UpdateClientService $update_client_service
      * @param DeleteClientService $delete_client_service
      * @param SearchClientService $search_client_service
+     * @param ProductRepository $product_repository
      */
     public function __construct(
         CreateClientService $create_client_service,
@@ -58,7 +62,8 @@ class ClientController extends Controller
         ShowClientService $show_client_service,
         UpdateClientService $update_client_service,
         DeleteClientService $delete_client_service,
-        SearchClientService $search_client_service
+        SearchClientService $search_client_service,
+        ProductRepository $product_repository
     )
     {
         $this->create_client_service = $create_client_service;
@@ -67,6 +72,7 @@ class ClientController extends Controller
         $this->update_client_service = $update_client_service;
         $this->delete_client_service = $delete_client_service;
         $this->search_client_service = $search_client_service;
+        $this->product_repository = $product_repository;
     }
     /**
      * Display a listing of the resource.
@@ -86,23 +92,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        $products = [
-            0 => [
-                'id' => 1,
-                'name' => 'Produto 1',
-                'value' => '2.55'
-            ],
-            1 => [
-                'id' => 2,
-                'name' => 'Produto 2',
-                'value' => '412.20'
-            ],
-            3 => [
-                'id' => 3,
-                'name' => 'Produto 3',
-                'value' => '632.00'
-            ],
-        ];
+        $products = $this->product_repository->getAll();
         return view('client.create', compact('products'));
     }
 
@@ -128,23 +118,7 @@ class ClientController extends Controller
     public function show($id)
     {
         $client = new ClientResource($this->show_client_service->execute($id));
-        $products = [
-            0 => [
-                'id' => 1,
-                'name' => 'Produto 1',
-                'value' => '2.55'
-            ],
-            1 => [
-                'id' => 2,
-                'name' => 'Produto 2',
-                'value' => '412.20'
-            ],
-            3 => [
-                'id' => 3,
-                'name' => 'Produto 3',
-                'value' => '632.00'
-            ],
-        ];
+        $products = $this->product_repository->getAll();
         return view('client.show', compact('client', 'products'));
     }
 

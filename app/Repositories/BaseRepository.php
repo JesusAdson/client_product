@@ -27,6 +27,7 @@ class BaseRepository
         return $this
             ->model
             ->query()
+            ->orderBy('name', 'asc')
             ->paginate(20);
     }
    

@@ -5,10 +5,10 @@
                 <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/client">Clientes</a>
+                <a class="nav-link" href="{{ route('client.index') }}">Clientes</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/todo/active">Produtos</a>
+                <a class="nav-link" href="{{ route('product.index') }}">Produtos</a>
             </li>
         </ul>
     </div>
