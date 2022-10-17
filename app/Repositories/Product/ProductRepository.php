@@ -22,4 +22,14 @@ class ProductRepository extends BaseRepository
             ->orderBy('name', 'asc')
             ->get();
     }
+
+    public function getByClient(int $id)
+    {
+        return $this->model
+            ->query()
+            ->whereHas('clientProduct', function ($query) use ($id) {
+                return $query->where('client_id', $id);
+            })
+            ->get();
+    }
 }

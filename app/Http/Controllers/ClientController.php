@@ -119,6 +119,14 @@ class ClientController extends Controller
     {
         $client = new ClientResource($this->show_client_service->execute($id));
         $products = $this->product_repository->getAll();
+        $selected_products = $this->product_repository->getByClient($id);
+
+        $products->filter(function ($product) use ($selected_products){
+            $selected_products->filter(function ($item) use ($product) {
+                if ($product->id === $item->id) $product->selected = 'selected';
+            });
+        });
+
         return view('client.show', compact('client', 'products'));
     }
 
@@ -131,23 +139,15 @@ class ClientController extends Controller
     public function edit($id)
     {
         $client = new ClientResource($this->show_client_service->execute($id));
-        $products = [
-            0 => [
-                'id' => 1,
-                'name' => 'Produto 1',
-                'value' => '2.55'
-            ],
-            1 => [
-                'id' => 2,
-                'name' => 'Produto 2',
-                'value' => '412.20'
-            ],
-            3 => [
-                'id' => 3,
-                'name' => 'Produto 3',
-                'value' => '632.00'
-            ],
-        ];
+        $products = $this->product_repository->getAll();
+        $selected_products = $this->product_repository->getByClient($id);
+
+        $products->filter(function ($product) use ($selected_products){
+            $selected_products->filter(function ($item) use ($product) {
+                if ($product->id === $item->id) $product->selected = 'selected';
+            });
+        });
+        
         return view('client.edit', compact('client', 'products'));
     }
 
