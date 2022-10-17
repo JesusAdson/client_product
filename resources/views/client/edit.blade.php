@@ -68,7 +68,7 @@
             </div>
             <div class="row">
                 <div class="col-md-2 m-2">
-                    <button type="submit" id="btn_submit" class="btn btn-primary">Salvar</button>
+                    <button type="button" onclick="submit()" id="btn_submit" class="btn btn-primary">Salvar</button>
                 </div>
             </div>
         </div>
@@ -78,11 +78,21 @@
 
 <script text="text/javascript">
 
+const submit = () => {
+    document.getElementById('btn_submit').addEventListener('click', submitForm());
+}
+
 const calculateInvoice = products => {
     return products.reduce((sum, item) => {
         return sum + parseFloat(item.value);
     }, 0);
 
+}
+
+const submitForm = (e) => {
+    let button = this;
+    e.preventDefault();
+    button.form.submit();
 }
 
 const generateInvoice = () => {

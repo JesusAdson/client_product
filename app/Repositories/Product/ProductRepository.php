@@ -14,15 +14,7 @@ class ProductRepository extends BaseRepository
     {
         parent::__construct($model);
     }
-
-    public function getAll()
-    {
-        return $this->model
-            ->query()
-            ->orderBy('name', 'asc')
-            ->get();
-    }
-
+    
     public function getByClient(int $id)
     {
         return $this->model
