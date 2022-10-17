@@ -3,8 +3,8 @@
         <label><strong>Selecione um ou mais produtos</strong></label><br/>
         <select class="form-control" name="products[]" id="products" multiple="multiple">
             @foreach($products as $product)
-                <option value="{{ $product['id'] }}">{{ $product['name'] }}</option>
+                <option value="{{ $product->id }}">{{ $product->name }}</option>
             @endforeach
-          </select>
+        </select>
     </div>
 </div>

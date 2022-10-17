@@ -1,14 +1,14 @@
 <div class="card card-data m-1" style="width: 24%">
     <div class="card-body">
         <h5 class="card-title">{{ $title }}</h5>
-        <p class="card-text">{{ $email }}</p>
+        <p class="card-text">{{ $text }}</p>
         <div class="row">
             <div class="col-md-12">
-                <form action="{{ $delete_route }}" method="POST">
+                <form action="{{ $delete }}" method="POST">
                     @method('DELETE')
                     @csrf
-                    <a href="{{ $show_route }}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
-                    <a href="{{ $edit_route }}" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                    <a href="{{ $show }}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                    <a href="{{ $edit }}" class="btn btn-success"><i class="fas fa-edit"></i></a>
                     <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                 </form>
             </div>
